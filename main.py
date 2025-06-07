@@ -1,11 +1,13 @@
 from networksecurity.components.data_ingestion import DataIngestion
 from networksecurity.components.data_validation import DataValidation
+from networksecurity.components.data_transformation import DataTransformation
 from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logging.logger import logging
-from networksecurity.entity.config_entity import TrainingPipelineConfig, DataIngestionConfig ,DataValidationConfig
+from networksecurity.entity.config_entity import TrainingPipelineConfig, DataIngestionConfig ,DataValidationConfig , DataTransformationConfig
 from networksecurity.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact
 import os
 import sys
+
 
 
 
@@ -28,6 +30,18 @@ if __name__ == "__main__":
         data_validation_artifact=data_validation.initiate_data_validation()
         logging.info("data Validation Completed")
         print(data_validation_artifact)
+
+
+        # data transformation stage 
+        data_transformation_config = DataTransformationConfig(trainingpipelineconfig)
+        data_tranformation = DataTransformation(data_transformation_config, data_validation_artifact)
+        data_transformation_artifact = data_tranformation.initiate_data_transformation()
+        logging.info("Data transformation completed successfully")
+        print(data_transformation_artifact)
+
+
+
+
 
     except Exception as e:
         logging.error(f"Error occurred during data ingestion: {e}")

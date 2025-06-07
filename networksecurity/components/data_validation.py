@@ -66,8 +66,8 @@ class DataValidation:
             status = True
             report ={}
             for column in base_df.columns:
-                d1 = base_df[column].values
-                d2 = current_df[column].values
+                d1 = base_df[column]
+                d2 = current_df[column]
                 is_sample_distribution_same = ks_2samp(d1, d2)
 
                 if threshold <= is_sample_distribution_same.pvalue:
