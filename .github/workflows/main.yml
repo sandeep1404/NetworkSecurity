@@ -80,18 +80,31 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       
+      - name: Clean Docker system before pulling
+        run: |
+          # Remove unused containers, networks, images, and build cache
+          docker system prune -a -f
+          # Check available disk space after cleanup
+          df -h /
+      
+      - name: Stop and remove container if running
+        run: |
+          docker ps -q --filter "name=networksecurity-test" | xargs -r docker stop
+          docker ps -a -q --filter "name=networksecurity-test" | xargs -r docker rm -f
+        continue-on-error: true
       
       - name: Pull latest images
         run: |
-         docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
-         
-    #   - name: Stop and remove  container if running
-    #     run: |
-    #      docker ps -q --filter "name=networksecurity-test" | grep -q . && docker stop networksecurity-test && docker rm -fv networksecurity-test
+          docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
        
       - name: Run Docker Image to serve users
         run: |
          docker run -d -p 8080:8080 --ipc="host" --name=networksecurity-test -e 'AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}' -e 'AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}' -e 'AWS_REGION=${{ secrets.AWS_REGION }}'  ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
       - name: Clean previous images and containers
         run: |
-         docker system prune -f
+          # More aggressive cleanup to ensure we don't run out of space in future runs
+          docker system prune -a -f
+          # Remove any dangling volumes
+          docker volume prune -f
+          # Check final disk space
+          df -h /
