@@ -96,7 +96,7 @@ class TrainingPipeline:
             return model_trainer_artifact
         except Exception as e:
             raise NetworkSecurityException(e, sys) from e
- ## run the pipeline
+ ## run the pipeline by considering all pipeline components
     def run_pipeline(self):
         try:
             data_ingestion_artifact = self.start_data_ingestion()
