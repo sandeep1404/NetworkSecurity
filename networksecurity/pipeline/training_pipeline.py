@@ -96,7 +96,7 @@ class TrainingPipeline:
             return model_trainer_artifact
         except Exception as e:
             raise NetworkSecurityException(e, sys) from e
-
+ ## run the pipeline
     def run_pipeline(self):
         try:
             data_ingestion_artifact = self.start_data_ingestion()
@@ -104,7 +104,7 @@ class TrainingPipeline:
             data_transformation_artifact = self.start_data_transformation(data_validation_artifact)
             model_trainer_artifact = self.start_model_trainer(data_transformation_artifact)
             self.sync_artifact_dir_to_s3() # artifact dir is going to s3 bucket
-            self.sync_saved_models_dir_to_s3() # saved models dir is going to s3 bucket
+            self.sync_saved_models_dir_to_s3() # saved models dir is going to s3 bucket 
             return model_trainer_artifact
         except Exception as e:
             raise NetworkSecurityException(e, sys) from e
