@@ -7,8 +7,8 @@ import sys
 from typing import Any, Dict, List
 import numpy as np
 import pickle
-
-
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import r2_score
 def read_yaml_file(file_path: str) -> dict:
     try:
         with open(file_path, "rb") as yaml_file:
@@ -63,5 +63,65 @@ def save_object(file_path: str, obj: object):
         with open(file_path, 'wb') as file:
             pickle.dump(obj, file)
         logging.info(f"Object saved successfully at {file_path}")
+    except Exception as e:
+        raise NetworkSecurityException(e, sys) from e
+    
+    
+def load_object(file_path: str, ) -> object:
+    try:
+        if not os.path.exists(file_path):
+            raise Exception(f"The file: {file_path} is not exists")
+        with open(file_path, "rb") as file_obj:
+            print(file_obj)
+            return pickle.load(file_obj)
+    except Exception as e:
+        raise NetworkSecurityException(e, sys) from e
+    
+def load_numpy_array_data(file_path: str) -> np.array:
+    """
+    load numpy array data from file
+    file_path: str location of file to load
+    return: np.array data loaded
+    """
+    try:
+        with open(file_path, "rb") as file_obj:
+            return np.load(file_obj)
+    except Exception as e:
+        raise NetworkSecurityException(e, sys) from e
+    
+def evaluate_models(X_train: np.ndarray, y_train: np.ndarray, X_test: np.ndarray, y_test: np.ndarray, models: Dict[str, Any], params: Dict[str, List[Any]]) -> Dict[str, float]:
+    """
+    Evaluates multiple machine learning models and returns their performance metrics.
+    
+    :param X_train: Training feature set.
+    :param y_train: Training labels.
+    :param X_test: Testing feature set.
+    :param y_test: Testing labels.
+    :param models: Dictionary of model names and their instances.
+    :param params: Dictionary of model names and their hyperparameters.
+    :return: Dictionary with model names as keys and their accuracy scores as values.
+    """
+    try:
+       report: Dict[str, float] = {}
+       for i in range(len(list(models))):
+           model = list(models.values())[i]
+           param = params[list(models.keys())[i]]
+
+           gs = GridSearchCV(model, param, cv=3)
+           gs.fit(X_train, y_train)
+
+           model.set_params(**gs.best_params_)
+           model.fit(X_train, y_train)
+
+           y_train_pred = model.predict(X_train)
+           y_test_pred = model.predict(X_test)
+
+           train_model_score = r2_score(y_true=y_train, y_pred=y_train_pred)
+           test_model_score = r2_score(y_true=y_test, y_pred=y_test_pred)
+
+           report[list(models.keys())[i]] = test_model_score
+       logging.info(f"Model evaluation report: {report}")
+       return report
+        
     except Exception as e:
         raise NetworkSecurityException(e, sys) from e
