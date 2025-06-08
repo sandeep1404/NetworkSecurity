@@ -16,7 +16,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from networksecurity.logging.logger import logging
 from sklearn.model_selection import GridSearchCV
 import mlflow
-
+import dagshub
+dagshub.init(repo_owner='sandeep1404', repo_name='NetworkSecurity', mlflow=True)
  
 class ModelTrainer:
     def __init__(self, data_transformation_artifact: DataTransformationArtifact, model_trainer_config: ModelTrainerConfig):
@@ -100,6 +101,8 @@ class ModelTrainer:
         Network_model = NetworkModel(preprocessor=preprocessor,model=best_model)
         save_object(file_path=self.model_trainer_config.trained_model_file_path, obj=Network_model)
         print(f"Model saved at: {self.model_trainer_config.trained_model_file_path}")
+
+        save_object("final_model/model.pkl", best_model)
 
         ## model trainer artifact
         model_trainer_artifact = ModelTrainerArtifact(

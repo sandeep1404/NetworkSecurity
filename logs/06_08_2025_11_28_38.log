@@ -1,0 +1,14 @@
+[2025-06-08 11:28:47,090] 1026 httpx INFO: HTTP Request: POST https://dagshub.com/login/oauth/middleman "HTTP/1.1 200 OK"
+[2025-06-08 11:28:47,363] 1026 httpx INFO: HTTP Request: POST https://dagshub.com/login/oauth/access_token "HTTP/1.1 200 OK"
+[2025-06-08 11:28:47,652] 1026 httpx INFO: HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-06-08 11:28:47,658] 107 dagshub INFO: Accessing as sandeep1404
+[2025-06-08 11:28:48,056] 1026 httpx INFO: HTTP Request: GET https://dagshub.com/api/v1/repos/sandeep1404/NetworkSecurity "HTTP/1.1 200 OK"
+[2025-06-08 11:28:48,320] 1026 httpx INFO: HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-06-08 11:28:48,322] 107 dagshub INFO: Initialized MLflow to track repo "sandeep1404/NetworkSecurity"
+[2025-06-08 11:28:48,323] 107 dagshub INFO: Repository sandeep1404/NetworkSecurity initialized!
+[2025-06-08 11:28:48,323] 19 root INFO: Starting data ingestion process
+[2025-06-08 11:28:49,393] 49 root INFO: Data exported to feature store at Artifacts/2025-06-08-11-28-48/data_ingestion/feature_store/phisingData.csv
+[2025-06-08 11:28:49,416] 65 root INFO: Train and test data exported to Artifacts/2025-06-08-11-28-48/data_ingestion/ingested/train.csv and Artifacts/2025-06-08-11-28-48/data_ingestion/ingested/test.csv
+[2025-06-08 11:28:49,416] 21 root INFO: Data ingestion completed successfully
+[2025-06-08 11:28:49,416] 17 root INFO: Data Validation class initialized with config: <networksecurity.entity.config_entity.DataValidationConfig object at 0x7dc5ad34f790>
+[2025-06-08 11:28:49,416] 50 root ERROR: Error occurred during data ingestion: Error occured in python script name [/home/sandeep/Desktop/MLops/NetworkSecurity/networksecurity/components/data_validation.py] line number [20] error message [Error occured in python script name [/home/sandeep/Desktop/MLops/NetworkSecurity/networksecurity/utils/main_utils/utils.py] line number [14] error message [[Errno 2] No such file or directory: 'NetworkSecurity/data_schema/schema.yaml']]

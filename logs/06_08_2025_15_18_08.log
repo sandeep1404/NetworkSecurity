@@ -1,0 +1,6 @@
+[2025-06-08 15:18:10,950] 1026 httpx INFO: HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-06-08 15:18:10,958] 107 dagshub INFO: Accessing as sandeep1404
+[2025-06-08 15:18:11,817] 1026 httpx INFO: HTTP Request: GET https://dagshub.com/api/v1/repos/sandeep1404/NetworkSecurity "HTTP/1.1 200 OK"
+[2025-06-08 15:18:12,396] 1026 httpx INFO: HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-06-08 15:18:12,399] 107 dagshub INFO: Initialized MLflow to track repo "sandeep1404/NetworkSecurity"
+[2025-06-08 15:18:12,400] 107 dagshub INFO: Repository sandeep1404/NetworkSecurity initialized!
